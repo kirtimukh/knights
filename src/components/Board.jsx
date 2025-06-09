@@ -60,12 +60,13 @@ const initialScore = {
     moveCount: 0,
     score: 0,
     streak: 0,
-    bestMoveCount: null
+    bestMoveCount: null,
+    bestStreak: 0
 }
 
 
 const scoreReducer = (state, action) => {
-    let health, score, deduction, increment, streak;
+    let health, score, deduction, increment, streak, bestStreak;
     switch (action.type) {
         case 'moved':
             return { ...state, moveCount: state.moveCount + 1 };
@@ -91,7 +92,9 @@ const scoreReducer = (state, action) => {
 
             score = state.score + increment
 
-            return { health, score, streak, increment, moveCount: 0, bestMoveCount: action.payload.newBestMoveCount };
+            bestStreak = Math.max(state.bestStreak, streak)
+
+            return { health, score, streak, increment, bestStreak, moveCount: 0, bestMoveCount: action.payload.newBestMoveCount };
         case 'timeout':
             return { ...action.payload };
         case 'reset':
@@ -156,7 +159,7 @@ const Board = () => {
         const currentKnightPosition = { col: colLabel, row: rowLabel, label: `${colLabel}${rowLabel}` }
 
         if (knightPos.label === `${colLabel}${rowLabel}`) {
-            // setShowValidMoves(prev => !prev);
+            setShowValidMoves(prev => !prev);
         } else if (isKnightMoveValid(currentKnightPosition, allowedMoves)) {
             if (destination.label === `${colLabel}${rowLabel}`) {
                 const newDestination = getRandomKnightPos(currentKnightPosition);
@@ -171,14 +174,10 @@ const Board = () => {
         }
     }
 
-    function handleButtonClick() {
-        setShowValidMoves(prev => !prev);
-    }
-
     const atagstyle = "text-blue-600 hover:text-blue-800 underline"
 
     const textGoldSquare =  <div className='bg-white inline'>Gold Square</div>
-    const textOmc = <div className='bg-white inline'>🎯 Best</div>
+    const textOmc = <div className='bg-white inline'>🎯 Optimal</div>
     const textIncre = <div className='bg-white inline'>⬆️ Increment</div>
     const textStreak = <div className='bg-white inline'>🔥 Streak</div>
     const textScore = <div className='bg-white inline'>⭐ Score</div>
@@ -215,14 +214,11 @@ const Board = () => {
                 </div>
                 <div>
                     <div className={theStyle} style={{ width: boardSize, gridTemplateColumns: 'repeat(5, 1fr)' }} >
-                        <div className='col-start-4'>
-                            🎯 {!smallScreen && 'Best:'} {scoreState.bestMoveCount}
+                        <div className='col-start-4 justify-self-end'>
+                            🔥 {!smallScreen && 'Best Streak:'} {scoreState.bestStreak}
                         </div>
-                        <div className='justify-self-end'>
-                            <button
-                                className="bg-blue-500 hover:bg-blue-600 text-white px-1 py-1 rounded"
-                                onClick={handleButtonClick}
-                            >Valid moves</button>
+                        <div className='col-start-5 justify-self-end'>
+                            🎯 {!smallScreen && 'Optimal:'} {scoreState.bestMoveCount}
                         </div>
                     </div>
                 </div>
