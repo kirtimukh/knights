@@ -1,12 +1,15 @@
-# React + Vite
+# Knights
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A tiny, ui only, 1 page, chessboard to challenge how swiftly you can move the knight across the board.
 
-Currently, two official plugins are available:
+[![Demo video](demo video)](https://github.com/user-attachments/assets/1a54557c-3ec5-4ad3-ad2e-5bda9924dd37)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run it locally
 
-## Expanding the ESLint configuration
+```sh
+npm -i
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Built with **ReactJS & TailwindCSS**\
+Hosted by **AWS Amplify**
